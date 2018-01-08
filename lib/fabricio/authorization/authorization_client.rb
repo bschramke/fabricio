@@ -3,8 +3,8 @@ require 'json'
 require 'fabricio/authorization/session'
 require 'fabricio/services/organization_service'
 
-AUTH_API_URL = 'https://fabric.io/oauth/token'
-ORGANIZATION_API_URL = 'https://fabric.io/api/v2/organizations'
+AUTH_API_URL = 'https://instant.fabric.io/oauth/token'
+ORGANIZATION_API_URL = 'https://instant.fabric.io/api/v2/organizations'
 
 module Fabricio
   module Authorization
@@ -57,15 +57,16 @@ module Fabricio
       # @return [Fabricio::Authorization::Session]
       def perform_refresh_token_request(session)
         conn = Faraday.new(:url => AUTH_API_URL) do |faraday|
+          faraday.request :url_encoded
           faraday.adapter Faraday.default_adapter
         end
 
         response = conn.post do |req|
-          req.headers['Content-Type'] = 'application/json'
+#          req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+          req.params['grant_type'] = 'password'
           req.body = {
-              'grant_type' => 'refresh_token',
               'refresh_token' => session.refresh_token
-          }.to_json
+          }
         end
         result = JSON.parse(response.body)
         if result['access_token'] == nil
@@ -83,19 +84,20 @@ module Fabricio
       # @return [Hash]
       def obtain_auth_data(username, password, client_id, client_secret)
         conn = Faraday.new(:url => AUTH_API_URL) do |faraday|
+          faraday.request :url_encoded
           faraday.adapter Faraday.default_adapter
         end
 
         response = conn.post do |req|
-          req.headers['Content-Type'] = 'application/json'
+#          req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+          req.params['grant_type'] = 'password'
+          req.params['scope'] = 'organizations apps issues features account twitter_client_apps beta software answers'
           req.body = {
-              'grant_type' => 'password',
-              'scope' => 'organizations apps issues features account twitter_client_apps beta software answers',
               'username' => username,
               'password' => password,
               'client_id' => client_id,
               'client_secret' => client_secret
-          }.to_json
+        }
         end
         JSON.parse(response.body)
       end
