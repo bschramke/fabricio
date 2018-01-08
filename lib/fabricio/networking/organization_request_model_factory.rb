@@ -6,7 +6,7 @@ module Fabricio
     class OrganizationRequestModelFactory
 
       # Server constants
-      FABRIC_API_URL = 'https://fabric.io'
+      FABRIC_API_URL = 'https://instant.fabric.io'
       FABRIC_API_PATH = '/api/v2'
       FABRIC_ORGANIZATIONS_ENDPOINT = '/organizations'
 

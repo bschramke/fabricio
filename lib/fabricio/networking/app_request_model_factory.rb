@@ -7,8 +7,8 @@ module Fabricio
     class AppRequestModelFactory
 
       # Server constants
-      FABRIC_API_URL = 'https://fabric.io'
-      FABRIC_GRAPHQL_API_URL = 'https://api-dash.fabric.io/graphql'
+      FABRIC_API_URL = 'https://instant.fabric.io'
+      FABRIC_GRAPHQL_API_URL = 'https://api-instant.fabric.io/graphql'
       FABRIC_API_PATH = '/api/v2'
       FABRIC_API_3_PATH = '/api/v3'
       FABRIC_APPS_ENDPOINT = '/apps'
