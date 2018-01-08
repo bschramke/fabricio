@@ -159,12 +159,9 @@ module Fabricio
       # @param start_time [String] Timestamp of the start date
       # @param end_time [String] Timestamp of the end date. Default is Time.now
       # @return [Float]
-      def crashfree_top_builds(id, start_time = (Time.now - (3600 * 24)).to_i, end_time = Time.now.to_i)
-        puts "Try to request Crashree rates for top builds."
+      def crashfree_top_builds(id, start_time = (Time.now - (3600 * 24 * 7)).to_i, end_time = Time.now.to_i)
         request_model = @request_model_factory.crash_free_users_for_top_builds(@session, id, start_time, end_time)
-        puts "request => #{request_model.inspect}"
         response = @network_client.perform_request(request_model)
-        puts "response => #{response.inspect}"
         JSON.parse(response.body)        
       end
       
