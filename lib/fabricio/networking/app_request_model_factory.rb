@@ -192,6 +192,27 @@ module Fabricio
         model
       end
 
+      # Returns a request model for obtaining the count of app crashes
+      #
+      # @param app_id [String]
+      # @param start_time [String] Timestamp of the start date
+      # @param end_time [String] Timestamp of the end date
+      # @return [Fabricio::Networking::RequestModel]
+      def crash_free_users_for_top_builds(session, app_id, start_time, end_time)
+        path = growth_analytics_endpoint(session, app_id, 'crash_free_users_for_top_builds')
+        params = {
+            'start' => start_time,
+            'end' => end_time
+        }
+        model = Fabricio::Networking::RequestModel.new do |config|
+          config.type = :GET
+          config.base_url = FABRIC_API_URL
+          config.api_path = path
+          config.params = params
+        end
+        model
+      end
+      
       # Returns a request model for obtaining top issues
       #
       # @param app_id [String]
